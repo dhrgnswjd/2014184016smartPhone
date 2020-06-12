@@ -13,10 +13,11 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 public class Building implements GameObject{
     private static Bitmap bitmap;
     private static final float BOTTOM_HEIGHT = 500;
+    private static final float BUILDING_X_POSITION = 500;
     private float y;
     private float x;
     private int layer;
-    private static final float BUILDING_X_POSITION = 500;
+
     GameWorld gw = GameWorld.get();
 
 
@@ -30,6 +31,7 @@ public class Building implements GameObject{
     }
 
     public void update() {
+        y -= 0.5f;
     }
 
     public void draw(Canvas canvas) {

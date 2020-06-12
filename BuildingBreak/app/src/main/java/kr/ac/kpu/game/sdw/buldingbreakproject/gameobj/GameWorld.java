@@ -23,7 +23,7 @@ public class GameWorld {
     }
     public void initResources(Resources res){
         object = new ArrayList<>();
-        object.add(new Ball(res,100,100,2.0f,3.0f));
+        object.add(new Character(res));
         object.add(new BuildingLayer(res,8));
     }
 

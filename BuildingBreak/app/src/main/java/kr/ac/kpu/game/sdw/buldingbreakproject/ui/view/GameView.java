@@ -1,24 +1,14 @@
 package kr.ac.kpu.game.sdw.buldingbreakproject.ui.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.view.Choreographer;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-
-import kr.ac.kpu.game.sdw.buldingbreakproject.R;
-import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Ball;
-import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
-import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameWorld;
 
 public class GameView extends View {

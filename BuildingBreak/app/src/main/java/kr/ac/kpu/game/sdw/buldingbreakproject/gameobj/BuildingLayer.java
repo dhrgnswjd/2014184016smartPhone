@@ -23,7 +23,9 @@ public class BuildingLayer implements GameObject{
     }
 
     public void update() {
-
+        for(Building o : building){
+            o.update();
+        }
     }
 
     public void draw(Canvas canvas) {
