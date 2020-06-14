@@ -13,7 +13,7 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.IndexTimer;
 
 public class Character implements GameObject{
-    public static final int FRAME_PER_SECOND = 6;
+    public static final int FRAME_PER_SECOND = 10;
     private final FrameAnimationBitmap fabIdle;
     private final FrameAnimationBitmap fabJump;
     private final FrameAnimationBitmap fabAttack_stand;
@@ -31,7 +31,7 @@ public class Character implements GameObject{
     private enum State{
         jump,idle,attack_stand,attack1_jump,attack2_jump,shield,power,power_jump
     }
-    private State state = State.attack1_jump;
+    private State state = State.power_jump;
 
     private RectF character_Jump;
 
@@ -48,7 +48,7 @@ public class Character implements GameObject{
 
         halfSize = fabIdle.getHeight()/2;
         this.y = gw.getBottom() - 200;
-        this.x = (gw.getRight()+gw.getLeft()-halfSize)*0.5f;
+        this.x = gw.getRight()/2;
     }
 
     public void update() {

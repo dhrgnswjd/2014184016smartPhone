@@ -12,47 +12,44 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
 public class Building implements GameObject{
 
-
-    private static final int ONE_BUILDING_LAYER = 5;
-    private static final float USER_GRAVITY = 500;
-    private final ArrayList<OneBuildingBitmap> oneBuilding = new ArrayList<>();
-    private final int layer;
+    private static final float USER_GRAVITY = 150;
+    private ArrayList<OneBuildingBitmap> ob = new ArrayList<>();
+    private int layer;
     private float x;
     private float y;
-    private static int width;
-    private static int height;
-    private static float w_Half;
-    private static float h_Half;
-    private float speed = 0;
-
+    private int height;
+    private int h_half;
+    private int width;
+    private int w_half;
+    private float speed;
+    private float time;
     GameWorld gw = GameWorld.get();
-
     public Building(Resources res) {
-        this.layer = ONE_BUILDING_LAYER;
-        for(int i = 0 ; i < ONE_BUILDING_LAYER; i++){
-            oneBuilding.add(OneBuildingBitmap.load(res,i));
-
+        for(int i = 0 ; i < 5; i++) {
+            ob.add(OneBuildingBitmap.load(res, i));
         }
-        width = OneBuildingBitmap.getWidth();
+        this.layer = layer;
         height = OneBuildingBitmap.getHeight();
-        w_Half = width/2;
-        h_Half = height/2;
-        this.y = gw.getTop();
-        this.x = gw.getRight()/2;
+        width = OneBuildingBitmap.getWidth();
+        h_half = height/2;
+        w_half = width/2;
+
+        x = gw.getRight()/2;
+        y = gw.getTop();
     }
 
     public void update() {
         DeltaTime dt = DeltaTime.get();
-        float time = dt.getDeltaTime();
+        time = dt.getDeltaTime();
         speed += time * USER_GRAVITY;
         y += speed * time;
     }
 
     public void draw(Canvas canvas) {
-
-
-        for(int i = 0; i < ONE_BUILDING_LAYER; i++){
-            oneBuilding.get(i).draw(canvas,x ,y - i*height);
+        for(int i = 0 ; i < 5 ; i++) {
+            ob.get(i).draw(canvas, x, y - i * height);
         }
     }
+
+
 }

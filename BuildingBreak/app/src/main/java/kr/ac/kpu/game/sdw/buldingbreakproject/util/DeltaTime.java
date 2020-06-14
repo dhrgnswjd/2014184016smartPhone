@@ -3,7 +3,7 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.util;
 import android.util.Log;
 
 public class DeltaTime {
-    private static float lastTime = System.nanoTime();
+    private float lastTime = System.nanoTime();
     public static DeltaTime singleton;
 
     public static DeltaTime get(){
@@ -17,9 +17,9 @@ public class DeltaTime {
     private DeltaTime(){
     }
     public float getDeltaTime(){
-        long time = System.nanoTime();
-        int delta_time = (int)((time - lastTime)/10000);
-        float d_t = (float)(delta_time * 0.00001);
+        float time = System.nanoTime();
+        float delta_time = (float)((time - lastTime)/1000);
+        float d_t = (float)(delta_time * 0.000001);
         lastTime = time;
         Log.d(this.getClass().getName(),"deltatime = " + d_t);
         return d_t;
