@@ -24,7 +24,7 @@ public class GameWorld {
     public void initResources(Resources res){
         object = new ArrayList<>();
         object.add(new Character(res));
-        object.add(new BuildingLayer(res,8));
+        object.add(new Building(res));
     }
 
     public void draw(Canvas canvas) {

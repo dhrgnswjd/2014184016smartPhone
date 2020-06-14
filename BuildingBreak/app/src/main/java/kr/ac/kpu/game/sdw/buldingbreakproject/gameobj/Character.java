@@ -31,7 +31,7 @@ public class Character implements GameObject{
     private enum State{
         jump,idle,attack_stand,attack1_jump,attack2_jump,shield,power,power_jump
     }
-    private State state = State.idle;
+    private State state = State.attack1_jump;
 
     private RectF character_Jump;
 
@@ -47,7 +47,8 @@ public class Character implements GameObject{
         fabPower_Jump = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,5,1);
 
         halfSize = fabIdle.getHeight()/2;
-
+        this.y = gw.getBottom() - 200;
+        this.x = (gw.getRight()+gw.getLeft()-halfSize)*0.5f;
     }
 
     public void update() {
@@ -55,8 +56,7 @@ public class Character implements GameObject{
     }
 
     public void draw(Canvas canvas) {
-        this.y = gw.getBottom() - 200;
-        this.x = (gw.getRight()+gw.getLeft()-halfSize)*0.5f;
+
         switch(state){
             case idle:
                 fabIdle.draw(canvas,x,y);

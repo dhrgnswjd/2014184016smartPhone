@@ -35,7 +35,7 @@ public class GameView extends View {
 
         mainRect = new Rect();
         gameWorld = GameWorld.get();
-        gameWorld.initResources(getResources());
+
 
 
     }
@@ -50,8 +50,9 @@ public class GameView extends View {
         mainRect.top = getPaddingTop();
         mainRect.right = getWidth() - getPaddingRight();
         mainRect.bottom = getHeight() - getPaddingBottom();
-        gameWorld.setRect(mainRect);
 
+        gameWorld.setRect(mainRect);
+        gameWorld.initResources(getResources());
     }
 
     @Override

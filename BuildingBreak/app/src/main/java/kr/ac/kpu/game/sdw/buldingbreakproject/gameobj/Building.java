@@ -1,43 +1,58 @@
 package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Random;
 
-import kr.ac.kpu.game.sdw.buldingbreakproject.R;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
 public class Building implements GameObject{
-    private static Bitmap bitmap;
-    private static final float BOTTOM_HEIGHT = 500;
-    private static final float BUILDING_X_POSITION = 500;
-    private float y;
+
+
+    private static final int ONE_BUILDING_LAYER = 5;
+    private static final float USER_GRAVITY = 500;
+    private final ArrayList<OneBuildingBitmap> oneBuilding = new ArrayList<>();
+    private final int layer;
     private float x;
-    private int layer;
+    private float y;
+    private static int width;
+    private static int height;
+    private static float w_Half;
+    private static float h_Half;
+    private float speed = 0;
 
     GameWorld gw = GameWorld.get();
 
+    public Building(Resources res) {
+        this.layer = ONE_BUILDING_LAYER;
+        for(int i = 0 ; i < ONE_BUILDING_LAYER; i++){
+            oneBuilding.add(OneBuildingBitmap.load(res,i));
 
-    public Building(Resources res, int layer) {
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(res, R.mipmap.buildingtest1);
         }
-        this.y = BOTTOM_HEIGHT+layer*bitmap.getHeight();
-
-        this.layer = layer;
+        width = OneBuildingBitmap.getWidth();
+        height = OneBuildingBitmap.getHeight();
+        w_Half = width/2;
+        h_Half = height/2;
+        this.y = gw.getTop();
+        this.x = gw.getRight()/2;
     }
 
     public void update() {
-        y -= 0.5f;
+        DeltaTime dt = DeltaTime.get();
+        float time = dt.getDeltaTime();
+        speed += time * USER_GRAVITY;
+        y += speed * time;
     }
 
     public void draw(Canvas canvas) {
 
 
-        this.x = (gw.getRight()+gw.getLeft()-bitmap.getWidth())*0.5f;
-        canvas.drawBitmap(bitmap, x, y, null);
+        for(int i = 0; i < ONE_BUILDING_LAYER; i++){
+            oneBuilding.get(i).draw(canvas,x ,y - i*height);
+        }
     }
 }

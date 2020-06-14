@@ -1,36 +1,27 @@
 package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
-import kr.ac.kpu.game.sdw.buldingbreakproject.R;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
 public class BuildingLayer implements GameObject{
 
-    private ArrayList<Building> building;
 
+    GameWorld gw = GameWorld.get();
 
-    public BuildingLayer(Resources res,int layer) {
-        building = new ArrayList<>();
-        for(int i = 0 ; i < layer; i++){
-            building.add(new Building(res,i));
-        }
+    public BuildingLayer(Resources res) {
 
     }
 
     public void update() {
-        for(Building o : building){
-            o.update();
-        }
+
     }
 
     public void draw(Canvas canvas) {
-        for(Building o : building){
-            o.draw(canvas);
-        }
+
     }
 }
