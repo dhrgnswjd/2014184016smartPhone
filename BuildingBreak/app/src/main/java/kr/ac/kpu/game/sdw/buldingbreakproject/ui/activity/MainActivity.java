@@ -1,7 +1,9 @@
 package kr.ac.kpu.game.sdw.buldingbreakproject.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
@@ -20,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
         gameView = findViewById(R.id.gameView);
 
-        postUpdate();
+        //postUpdate();
 
     }
 
-    private void postUpdate() {
+    /*private void postUpdate() {
         gameView.postDelayed((new Runnable() {
             @Override
             public void run() {
@@ -33,8 +35,12 @@ public class MainActivity extends AppCompatActivity {
                 postUpdate();
             }
         }),GAMEVIEW_UPDATE_INTERVAL_MSEC);
-    }
+    }*/
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

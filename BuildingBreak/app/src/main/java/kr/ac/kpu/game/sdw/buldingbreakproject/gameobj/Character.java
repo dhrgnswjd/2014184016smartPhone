@@ -22,6 +22,8 @@ public class Character implements GameObject{
     private final FrameAnimationBitmap fabPower;
     private final FrameAnimationBitmap fabShield;
     private final FrameAnimationBitmap fabPower_Jump;
+    private final int height;
+    private final int h_half;
 
 
     private float y;
@@ -46,8 +48,10 @@ public class Character implements GameObject{
         fabShield = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,1,4);
         fabPower_Jump = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,5,1);
 
+        height = fabIdle.getHeight();
+        h_half = height/2;
         halfSize = fabIdle.getHeight()/2;
-        this.y = gw.getBottom() - 200;
+        this.y = gw.getLand(h_half) - 200;
         this.x = gw.getRight()/2;
     }
 

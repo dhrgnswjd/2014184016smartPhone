@@ -10,7 +10,7 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
 public class BuildingLayer implements GameObject {
 
-    private static final float USER_GRAVITY = 150;
+    private static final float USER_GRAVITY = 250;
     private ArrayList<Building> b = new ArrayList<>();
     private OneBuildingBitmap ob;
     private int layer;
@@ -43,8 +43,8 @@ public class BuildingLayer implements GameObject {
         time = dt.getDeltaTime();
         speed += time * USER_GRAVITY;
 
-        if(y >= gw.getBottom()-200){
-            y =gw.getBottom()-200;
+        if(y >= gw.getLand(h_half)-200){
+            y =gw.getLand(h_half)-200;
         }
         else{
             y += speed * time;
