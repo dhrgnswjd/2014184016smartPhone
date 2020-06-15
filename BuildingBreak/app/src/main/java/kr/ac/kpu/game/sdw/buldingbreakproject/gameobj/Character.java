@@ -35,8 +35,8 @@ public class Character implements GameObject{
 
     private RectF character_Jump;
 
-    public Character(Resources res) {
-        //FabInit(res);
+    public Character() {
+        Resources res = gw.getResources();
         fabIdle = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,1,0);
         fabJump = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,1,2);
         fabAttack_stand = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,5,0);

@@ -10,45 +10,40 @@ import java.util.ArrayList;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
-public class Building implements GameObject{
+public class Building{
 
     private static final float USER_GRAVITY = 150;
-    private ArrayList<OneBuildingBitmap> ob = new ArrayList<>();
+    private OneBuildingBitmap ob;
+
+    private static float x;
+    private static float y;
+    private static int height;
+    private static int h_half;
+    private static int width;
+    private static int w_half;
+    private static float speed;
+    private static float time;
     private int layer;
-    private float x;
-    private float y;
-    private int height;
-    private int h_half;
-    private int width;
-    private int w_half;
-    private float speed;
-    private float time;
-    GameWorld gw = GameWorld.get();
-    public Building(Resources res) {
-        for(int i = 0 ; i < 5; i++) {
-            ob.add(OneBuildingBitmap.load(res, i));
-        }
+
+    public Building(int layer) {
+        GameWorld gw = GameWorld.get();
+        Resources res = gw.getResources();
+        this.ob = OneBuildingBitmap.load(res);
         this.layer = layer;
         height = OneBuildingBitmap.getHeight();
         width = OneBuildingBitmap.getWidth();
         h_half = height/2;
         w_half = width/2;
-
         x = gw.getRight()/2;
         y = gw.getTop();
     }
 
-    public void update() {
-        DeltaTime dt = DeltaTime.get();
-        time = dt.getDeltaTime();
-        speed += time * USER_GRAVITY;
-        y += speed * time;
+    public void update(float _y) {
+        y = _y;
     }
 
     public void draw(Canvas canvas) {
-        for(int i = 0 ; i < 5 ; i++) {
-            ob.get(i).draw(canvas, x, y - i * height);
-        }
+        ob.draw(canvas,x,y-layer*height,layer);
     }
 
 

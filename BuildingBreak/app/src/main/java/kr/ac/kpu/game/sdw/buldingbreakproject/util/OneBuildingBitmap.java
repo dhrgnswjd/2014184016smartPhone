@@ -11,18 +11,17 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 
 public class OneBuildingBitmap {
     private static int width;
-    private int layer;
     private static Bitmap bitmap;
     private static int height;
     private static int h_Half;
     private static int w_Half;
 
 
-    private OneBuildingBitmap(Resources res, int layer) {
+    private OneBuildingBitmap(Resources res) {
         bitmap = BitmapFactory.decodeResource(res, R.mipmap.building3);
         height = bitmap.getHeight() / 5;
         width = bitmap.getWidth();
-        this.layer = 4-layer;
+
         h_Half = height/2;
         w_Half = width/2;
 
@@ -31,13 +30,13 @@ public class OneBuildingBitmap {
 
 
 
-    public static OneBuildingBitmap load(Resources res, int layer){
+    public static OneBuildingBitmap load(Resources res){
 
-        OneBuildingBitmap bb= new OneBuildingBitmap(res, layer);
+        OneBuildingBitmap bb= new OneBuildingBitmap(res);
         return bb;
     }
-    public void draw(Canvas canvas, float x, float y){
-
+    public void draw(Canvas canvas, float x, float y, int _layer){
+        int layer = 4-_layer;
         Rect rectSrc = new Rect(0,height*layer,width,height*(layer+1));
         RectF rectDst = new RectF(x - w_Half, y - h_Half, x+w_Half,y+h_Half);
         canvas.drawBitmap(bitmap,rectSrc, rectDst,null);

@@ -52,7 +52,7 @@ public class GameView extends View {
         mainRect.bottom = getHeight() - getPaddingBottom();
 
         gameWorld.setRect(mainRect);
-        gameWorld.initResources(getResources());
+        gameWorld.initResources(this);
     }
 
     @Override

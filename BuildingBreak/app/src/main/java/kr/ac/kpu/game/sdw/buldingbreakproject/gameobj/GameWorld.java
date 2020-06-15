@@ -3,44 +3,51 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.view.View;
 
 import java.util.ArrayList;
 
 public class GameWorld {
 
 
-    public static GameWorld get(){
-        if(singleton == null){
+    private View view;
+    private Resources res;
+
+    public static GameWorld get() {
+        if (singleton == null) {
             singleton = new GameWorld();
         }
         return singleton;
     }
+
     public static GameWorld singleton;
     private ArrayList<GameObject> object;
     private Rect rect;
 
-    private GameWorld(){
+    private GameWorld() {
     }
-    public void initResources(Resources res){
+
+    public void initResources(View view) {
+        this.view = view;
+        this.res = view.getResources();
         object = new ArrayList<>();
-        object.add(new Character(res));
-        object.add(new Building(res));
+        object.add(new Character());
+        object.add(new BuildingLayer());
     }
 
     public void draw(Canvas canvas) {
-        for(GameObject o : object){
+        for (GameObject o : object) {
             o.draw(canvas);
         }
     }
 
 
-
     public void update() {
 
-        if(rect == null) {
+        if (rect == null) {
             return;
         }
-        for(GameObject o : object){
+        for (GameObject o : object) {
             o.update();
         }
     }
@@ -48,14 +55,25 @@ public class GameWorld {
     public void setRect(Rect rect) {
         this.rect = rect;
     }
-    public int getLeft(){
+
+    public int getLeft() {
         return rect.left;
-    }public int getRight(){
+    }
+
+    public int getRight() {
         return rect.right;
-    }public int getBottom(){
+    }
+
+    public int getBottom() {
         return rect.bottom;
-    }public int getTop(){
+    }
+
+    public int getTop() {
         return rect.top;
+    }
+
+    public Resources getResources() {
+        return res;
     }
 
 }
