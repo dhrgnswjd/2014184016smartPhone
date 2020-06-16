@@ -28,6 +28,11 @@ public class GameWorld {
 
     private GameWorld() {
     }
+
+    public ArrayList<GameObject> getobjectAt(Layer layer) {
+        return layers.get(layer.ordinal());
+    }
+
     public enum Layer{
         bg,building,player,ui,COUNT
     }

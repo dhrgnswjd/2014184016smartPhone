@@ -2,6 +2,7 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.util.Log;
 
 import java.sql.Time;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
-public class Building{
+public class Building implements BoxCollidable{
 
     private static final float USER_GRAVITY = 150;
     private OneBuildingBitmap ob;
@@ -39,7 +40,9 @@ public class Building{
     }
 
     public void update(float _y) {
+        GameWorld gw = GameWorld.get();
         y = _y;
+        ArrayList<GameObject> character = gw.getobjectAt(GameWorld.Layer.player);
     }
 
     public void draw(Canvas canvas) {
@@ -47,4 +50,11 @@ public class Building{
     }
 
 
+    @Override
+    public void getBox(RectF rect) {
+        rect.left = x - w_half;
+        rect.right = x + w_half;
+        rect.bottom = y + layer * height;
+        rect.top = y - layer * height;
+    }
 }

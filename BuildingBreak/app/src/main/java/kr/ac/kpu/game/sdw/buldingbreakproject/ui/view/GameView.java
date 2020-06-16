@@ -26,11 +26,12 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+        initResources();
     }
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initResources();
+
     }
 
     private void initResources() {
@@ -60,7 +61,7 @@ public class GameView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mainRect.left = getPaddingLeft();
+        mainRect.left = getLeft();
         mainRect.top = getPaddingTop();
         mainRect.right = getWidth() - getPaddingRight();
         mainRect.bottom = getHeight() - getPaddingBottom();
