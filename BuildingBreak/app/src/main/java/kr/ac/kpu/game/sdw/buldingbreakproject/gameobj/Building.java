@@ -50,7 +50,11 @@ public class Building implements BoxCollidable{
         BuildingLayer bl = (BuildingLayer)buildingLayer.get(0);
         Character c = (Character)characters.get(0);
         if(collisionHelper.collides(c,this)){
-            bl.setIndex();
+            //bl.setIndex();
+
+            if(c.getState()== Character.State.idle){
+                bl.setIndex();
+            }
         }
 
 

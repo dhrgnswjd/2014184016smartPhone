@@ -3,12 +3,8 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 import kr.ac.kpu.game.sdw.buldingbreakproject.R;
-import kr.ac.kpu.game.sdw.buldingbreakproject.util.CollisionHelper;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
 
 public class Character implements GameObject,BoxCollidable{
@@ -40,10 +36,14 @@ public class Character implements GameObject,BoxCollidable{
         rect.top = y - h_half;
     }
 
-    private enum State{
+    public State getState(){
+        return state;
+    }
+
+    public static enum State{
         jump,idle,attack_stand,attack1_jump,attack2_jump,shield,power,power_jump
     }
-    private State state = State.power_jump;
+    private static State state = State.idle;
 
     private RectF character_Jump;
 

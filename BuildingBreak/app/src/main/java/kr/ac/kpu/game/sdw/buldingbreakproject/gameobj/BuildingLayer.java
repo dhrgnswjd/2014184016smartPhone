@@ -45,7 +45,7 @@ public class BuildingLayer implements GameObject {
         time = dt.getDeltaTime();
         speed += time * USER_GRAVITY;
         y += speed * time;
-        Log.d(this.getClass().getName(),"call" + index);
+        //Log.d(this.getClass().getName(),"call" + index);
         if(y >= gw.getLand(h_half)-200 + index*height){
             y =gw.getLand(h_half)-200 + index*height;
         }
@@ -67,8 +67,20 @@ public class BuildingLayer implements GameObject {
     }
     public void setIndex(){
         this.index++;
+        if(index >= 5){
+            spawn();
+        }
     }
 
+    private void spawn() {
+        b.clear();
+        for(int i = 0 ; i < 5; i++) {
+            b.add(new Building(i));
+        }
+        y = gw.getTop();
+        index = 0;
+        speed = 0;
+    }
 
 
 }
