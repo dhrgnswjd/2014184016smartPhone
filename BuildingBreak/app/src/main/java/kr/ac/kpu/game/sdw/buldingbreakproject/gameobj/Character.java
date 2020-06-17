@@ -1,18 +1,17 @@
 package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 
-import kr.ac.kpu.game.sdw.buldingbreakproject.R;
-import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
-import kr.ac.kpu.game.sdw.buldingbreakproject.util.IndexTimer;
+import java.util.ArrayList;
 
-public class Character implements GameObject{
+import kr.ac.kpu.game.sdw.buldingbreakproject.R;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.CollisionHelper;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
+
+public class Character implements GameObject,BoxCollidable{
     public static final int FRAME_PER_SECOND = 10;
     private final FrameAnimationBitmap fabIdle;
     private final FrameAnimationBitmap fabJump;
@@ -24,12 +23,23 @@ public class Character implements GameObject{
     private final FrameAnimationBitmap fabPower_Jump;
     private final int height;
     private final int h_half;
+    private final int width;
+    private final int w_half;
 
 
     private float y;
     private float x;
     int halfSize;
     GameWorld gw = GameWorld.get();
+
+    @Override
+    public void getBox(RectF rect) {
+        rect.left = x - w_half;
+        rect.right = x + w_half;
+        rect.bottom = y + h_half;
+        rect.top = y - h_half;
+    }
+
     private enum State{
         jump,idle,attack_stand,attack1_jump,attack2_jump,shield,power,power_jump
     }
@@ -49,6 +59,8 @@ public class Character implements GameObject{
         fabPower_Jump = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,5,1);
 
         height = fabIdle.getHeight();
+        width = fabIdle.getWidth();
+        w_half = width/2;
         h_half = height/2;
         halfSize = fabIdle.getHeight()/2;
         this.y = gw.getLand(h_half) - 200;
@@ -56,6 +68,7 @@ public class Character implements GameObject{
     }
 
     public void update() {
+
 
     }
 

@@ -21,7 +21,7 @@ public class DeltaTime {
         float delta_time = (float)((time - lastTime)/1000);
         float d_t = (float)(delta_time * 0.000001);
         lastTime = time;
-        Log.d(this.getClass().getName(),"deltatime = " + d_t);
+        //Log.d(this.getClass().getName(),"deltatime = " + d_t);
         return d_t;
     }
 }

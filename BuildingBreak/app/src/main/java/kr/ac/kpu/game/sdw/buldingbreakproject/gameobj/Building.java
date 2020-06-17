@@ -8,6 +8,7 @@ import android.util.Log;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.CollisionHelper;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
@@ -25,6 +26,7 @@ public class Building implements BoxCollidable{
     private static float speed;
     private static float time;
     private int layer;
+    private CollisionHelper collisionHelper = new CollisionHelper();
 
     public Building(int layer) {
         GameWorld gw = GameWorld.get();
@@ -39,10 +41,22 @@ public class Building implements BoxCollidable{
         y = gw.getTop();
     }
 
-    public void update(float _y) {
+    public void update(float _y,int layer) {
         GameWorld gw = GameWorld.get();
         y = _y;
-        ArrayList<GameObject> character = gw.getobjectAt(GameWorld.Layer.player);
+        this.layer = layer;
+        ArrayList<GameObject> characters = gw.getobjectAt(GameWorld.Layer.player);
+        ArrayList<GameObject> buildingLayer = gw.getobjectAt(GameWorld.Layer.building);
+        BuildingLayer bl = (BuildingLayer)buildingLayer.get(0);
+        Character c = (Character)characters.get(0);
+        if(collisionHelper.collides(c,this)){
+            bl.setIndex();
+        }
+
+
+
+
+
     }
 
     public void draw(Canvas canvas) {
@@ -54,7 +68,11 @@ public class Building implements BoxCollidable{
     public void getBox(RectF rect) {
         rect.left = x - w_half;
         rect.right = x + w_half;
-        rect.bottom = y + layer * height;
-        rect.top = y - layer * height;
+        rect.bottom = y + h_half - (height*layer);
+        rect.top = y - h_half;
+    }
+
+    public void logging() {
+
     }
 }

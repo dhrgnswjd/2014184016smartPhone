@@ -2,6 +2,7 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class BuildingLayer implements GameObject {
     private int w_half;
     private float speed;
     private float time;
+    private int index;
     GameWorld gw = GameWorld.get();
     public BuildingLayer() {
         Resources res = gw.getResources();
@@ -33,7 +35,7 @@ public class BuildingLayer implements GameObject {
         width = OneBuildingBitmap.getWidth();
         h_half = height/2;
         w_half = width/2;
-
+        index = 0;
         x = gw.getRight()/2;
         y = gw.getTop();
     }
@@ -42,23 +44,31 @@ public class BuildingLayer implements GameObject {
         DeltaTime dt = DeltaTime.get();
         time = dt.getDeltaTime();
         speed += time * USER_GRAVITY;
+        y += speed * time;
+        Log.d(this.getClass().getName(),"call" + index);
+        if(y >= gw.getLand(h_half)-200 + index*height){
+            y =gw.getLand(h_half)-200 + index*height;
+        }
 
-        if(y >= gw.getLand(h_half)-200){
-            y =gw.getLand(h_half)-200;
+        for(int i = index ; i < 5; i ++){
+            b.get(i).update(y, i);
         }
-        else{
-            y += speed * time;
-        }
-        for(int i = 0 ; i < 5; i ++){
-            b.get(i).update(y);
-        }
+
     }
 
     public void draw(Canvas canvas) {
-        for(int i = 0 ; i < 5; i ++){
+        for(int i = index; i < 5; i ++){
             b.get(i).draw(canvas);
         }
+
     }
+    public ArrayList<Building> objectsAt(){
+        return b;
+    }
+    public void setIndex(){
+        this.index++;
+    }
+
 
 
 }

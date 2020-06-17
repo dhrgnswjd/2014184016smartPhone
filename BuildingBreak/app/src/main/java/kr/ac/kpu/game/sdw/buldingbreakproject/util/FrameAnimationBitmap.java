@@ -14,6 +14,7 @@ public class FrameAnimationBitmap {
     private int layer;
     private Bitmap bitmap;
     private int height;
+    private int width;
     private int frameCount;
 
     private IndexTimer indexTimer;
@@ -21,6 +22,7 @@ public class FrameAnimationBitmap {
     private FrameAnimationBitmap(Resources res, int resId,int count, int layer){
         bitmap = BitmapFactory.decodeResource(res,resId);
         height = bitmap.getHeight()/5;
+        width = bitmap.getWidth()/5;
         int width = bitmap.getWidth();
         frameCount = count;
         this.layer = layer;
@@ -52,5 +54,9 @@ public class FrameAnimationBitmap {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

@@ -84,7 +84,7 @@ public class GameView extends View {
         gameWorld.update(frameTimeNanos);
         count ++;
         if(timer.done()){
-            Log.d(this.getClass().getName(),"FrameTime = " + count);
+            //Log.d(this.getClass().getName(),"FrameTime = " + count);
             count = 0;
             timer.reset();
         }
