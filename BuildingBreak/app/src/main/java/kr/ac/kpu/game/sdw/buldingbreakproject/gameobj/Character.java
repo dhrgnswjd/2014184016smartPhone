@@ -43,7 +43,7 @@ public class Character implements GameObject,BoxCollidable{
     public static enum State{
         jump,idle,attack_stand,attack1_jump,attack2_jump,shield,power,power_jump
     }
-    private static State state = State.idle;
+    private static State state = State.shield;
 
     private RectF character_Jump;
 

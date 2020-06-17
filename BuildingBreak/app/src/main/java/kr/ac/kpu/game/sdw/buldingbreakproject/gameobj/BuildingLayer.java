@@ -11,7 +11,8 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 
 public class BuildingLayer implements GameObject {
 
-    private static final float USER_GRAVITY = 250;
+    private static final float USER_GRAVITY = 350;
+    private static final float USER_UP_FORCE = 500;
     private ArrayList<Building> b = new ArrayList<>();
     private OneBuildingBitmap ob;
     private int layer;
@@ -25,6 +26,9 @@ public class BuildingLayer implements GameObject {
     private float time;
     private int index;
     GameWorld gw = GameWorld.get();
+    private float shild;
+    private float force;
+
     public BuildingLayer() {
         Resources res = gw.getResources();
         ob = OneBuildingBitmap.load(res);
@@ -38,12 +42,14 @@ public class BuildingLayer implements GameObject {
         index = 0;
         x = gw.getRight()/2;
         y = gw.getTop();
+        force = 0;
     }
 
     public void update() {
         DeltaTime dt = DeltaTime.get();
         time = dt.getDeltaTime();
         speed += time * USER_GRAVITY;
+
         y += speed * time;
         //Log.d(this.getClass().getName(),"call" + index);
         if(y >= gw.getLand(h_half)-200 + index*height){
@@ -80,7 +86,11 @@ public class BuildingLayer implements GameObject {
         y = gw.getTop();
         index = 0;
         speed = 0;
+        force = 0;
     }
 
 
+    public void setShield() {
+        speed = -USER_UP_FORCE;
+    }
 }

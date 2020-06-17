@@ -55,6 +55,9 @@ public class Building implements BoxCollidable{
             if(c.getState()== Character.State.idle){
                 bl.setIndex();
             }
+            if(c.getState() == Character.State.shield){
+                bl.setShield();
+            }
         }
 
 
