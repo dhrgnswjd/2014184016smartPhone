@@ -3,14 +3,13 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.util.Log;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.CollisionHelper;
-import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
+import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class Building implements BoxCollidable{
 
@@ -29,7 +28,7 @@ public class Building implements BoxCollidable{
     private CollisionHelper collisionHelper = new CollisionHelper();
 
     public Building(int layer) {
-        GameWorld gw = GameWorld.get();
+        MainWorld gw = MainWorld.get();
         Resources res = gw.getResources();
         this.ob = OneBuildingBitmap.load(res);
         this.layer = layer;
@@ -42,11 +41,12 @@ public class Building implements BoxCollidable{
     }
 
     public void update(float _y,int layer) {
-        GameWorld gw = GameWorld.get();
+
+        MainWorld gw = MainWorld.get();
         y = _y;
         this.layer = layer;
-        ArrayList<GameObject> characters = gw.getobjectAt(GameWorld.Layer.player);
-        ArrayList<GameObject> buildingLayer = gw.getobjectAt(GameWorld.Layer.building);
+        ArrayList<GameObject> characters = gw.getobjectAt(MainWorld.Layer.player);
+        ArrayList<GameObject> buildingLayer = gw.getobjectAt(MainWorld.Layer.building);
         BuildingLayer bl = (BuildingLayer)buildingLayer.get(0);
         Character c = (Character)characters.get(0);
         if(collisionHelper.collides(c,this)){

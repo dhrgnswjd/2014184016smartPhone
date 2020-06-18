@@ -2,12 +2,13 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
+import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class BuildingLayer implements GameObject {
 
@@ -25,7 +26,7 @@ public class BuildingLayer implements GameObject {
     private float speed;
     private float time;
     private int index;
-    GameWorld gw = GameWorld.get();
+    MainWorld gw = MainWorld.get();
     private float shild;
     private float force;
 

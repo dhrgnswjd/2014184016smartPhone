@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 
 import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 import kr.ac.kpu.game.sdw.buldingbreakproject.ui.view.GameView;
+import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
+        MainWorld.create();
         gameView = new GameView(this);
 
         setContentView(gameView);

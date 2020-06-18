@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import kr.ac.kpu.game.sdw.buldingbreakproject.R;
+import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
+import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class Character implements GameObject,BoxCollidable{
     public static final int FRAME_PER_SECOND = 10;
@@ -26,7 +28,7 @@ public class Character implements GameObject,BoxCollidable{
     private float y;
     private float x;
     int halfSize;
-    GameWorld gw = GameWorld.get();
+    MainWorld gw = MainWorld.get();
 
     @Override
     public void getBox(RectF rect) {

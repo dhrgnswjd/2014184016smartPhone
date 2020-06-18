@@ -1,41 +1,46 @@
-package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
+package kr.ac.kpu.game.sdw.buldingbreakproject.framework;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 
-public class GameWorld {
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Character;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
+
+public abstract class GameWorld {
 
 
-    private View view;
-    private Resources res;
-    private long frameTimeNanos;
-    private long timeDiffNanos;
+    private static final String TAG = GameWorld.class.getSimpleName();
+    protected View view;
+    protected Resources res;
+    protected long frameTimeNanos;
+    protected long timeDiffNanos;
 
     public static GameWorld get() {
         if (singleton == null) {
-            singleton = new GameWorld();
+    //        singleton = new GameWorld();
+            Log.e(TAG,"GameWorld subclass not created");
         }
         return singleton;
     }
 
-    public static GameWorld singleton;
+    protected static GameWorld singleton;
     //private ArrayList<GameObject> object;
-    private Rect rect;
+    protected Rect rect;
 
-    private GameWorld() {
+    protected GameWorld() {
     }
 
-    public ArrayList<GameObject> getobjectAt(Layer layer) {
-        return layers.get(layer.ordinal());
+    public ArrayList<GameObject> getobjectAt(int index) {
+        return layers.get(index);
     }
 
-    public enum Layer{
-        bg,building,player,ui,COUNT
-    }
+
 
     public void initResources(View view) {
         this.view = view;
@@ -44,15 +49,13 @@ public class GameWorld {
         initObjects();
     }
     public void initObjects() {
-        add(Layer.building, new BuildingLayer());
-        add(Layer.player, new Character());
     }
 
-    private void add(final Layer layer, final GameObject obj) {
+    public void add(final int index, final GameObject obj) {
         view.post(new Runnable() {
             @Override
             public void run() {
-                ArrayList<GameObject> objects = layers.get(layer.ordinal());
+                ArrayList<GameObject> objects = layers.get(index);
                 objects.add(obj);
             }
         });
@@ -62,11 +65,15 @@ public class GameWorld {
     protected ArrayList<ArrayList<GameObject>> layers;
     private void initLayers() {
         layers = new ArrayList<>();
-        for(int i = 0 ; i < Layer.COUNT.ordinal();i++){
+        int layerCount = getLayerCount();
+        for(int i = 0 ; i < layerCount;i++){
             ArrayList<GameObject> layer = new ArrayList<>();
             layers.add(layer);
         }
     }
+
+    abstract  protected int getLayerCount() ;
+
 
     public void draw(Canvas canvas) {
         for(ArrayList<GameObject> object : layers) {
@@ -93,12 +100,6 @@ public class GameWorld {
 
         this.rect = rect;
 
-
-
-    }
-
-    public int getLeft() {
-        return rect.left;
     }
 
     public int getRight() {
@@ -112,6 +113,10 @@ public class GameWorld {
     public int getTop() {
         return rect.top;
     }
+    public int getLeft() {
+        return rect.left;
+    }
+
 
     public Resources getResources() {
         return res;
@@ -124,8 +129,5 @@ public class GameWorld {
     }
     public long getCurrentTimeNanos(){
         return frameTimeNanos;
-    }
-    public float getLand(int halfszie){
-        return rect.bottom - halfszie;
     }
 }

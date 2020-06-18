@@ -1,18 +1,19 @@
 package kr.ac.kpu.game.sdw.buldingbreakproject.ui.view;
 
+import android.app.Service;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
-import android.media.Image;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
-import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameWorld;
+import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.IndexTimer;
 
 public class GameView extends View {
@@ -35,11 +36,19 @@ public class GameView extends View {
     }
 
     private void initResources() {
+        WindowManager wm = (WindowManager) getContext().getSystemService(Service.WINDOW_SERVICE);
+        Point size = new Point();
+        wm.getDefaultDisplay().getSize(size);
+        mainRect = new Rect(0,0,size.x,size.y);
+
         mainPaint = new Paint();
         mainPaint.setColor(0xFFFFEEEE);
 
-        mainRect = new Rect();
+
         gameWorld = GameWorld.get();
+        gameWorld.setRect(mainRect);
+        gameWorld.initResources(this);
+
 
         timer = new IndexTimer(10,1);
         postFrameCallBack();
@@ -58,7 +67,7 @@ public class GameView extends View {
     }
 
 
-    @Override
+   /* @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mainRect.left = getLeft();
@@ -67,8 +76,8 @@ public class GameView extends View {
         mainRect.bottom = getHeight() - getPaddingBottom();
 
         gameWorld.setRect(mainRect);
-        gameWorld.initResources(this);
-    }
+
+    }*/
 
     @Override
     protected void onDraw(Canvas canvas) {
