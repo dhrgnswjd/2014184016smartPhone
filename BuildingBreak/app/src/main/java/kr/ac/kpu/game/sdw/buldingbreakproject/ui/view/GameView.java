@@ -8,11 +8,16 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.Choreographer;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.IndexTimer;
 
@@ -23,7 +28,7 @@ public class GameView extends View {
     private boolean moves;
     private GameWorld gameWorld;
     private IndexTimer timer;
-
+    Button btn;
 
     public GameView(Context context) {
         super(context);
@@ -32,6 +37,8 @@ public class GameView extends View {
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        AttributeSet attributeSet;
+        btn = new Button(context,attrs);
 
     }
 
@@ -81,7 +88,7 @@ public class GameView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawRect(mainRect,mainPaint);
+        //canvas.drawRect(mainRect,mainPaint);
         gameWorld.draw(canvas);
 
 
@@ -102,5 +109,8 @@ public class GameView extends View {
 
     public void doAction() {
         moves = !moves;
+    }
+    public boolean onTouchEvent(MotionEvent event) {
+        return gameWorld.onTouchEvent(event);
     }
 }

@@ -25,7 +25,7 @@ public class Building implements BoxCollidable{
     private static float speed;
     private static float time;
     private int layer;
-    private CollisionHelper collisionHelper = new CollisionHelper();
+    CollisionHelper collisionHelper = new CollisionHelper();
 
     public Building(int layer) {
         MainWorld gw = MainWorld.get();
@@ -42,6 +42,7 @@ public class Building implements BoxCollidable{
 
     public void update(float _y,int layer) {
 
+        CollisionHelper collisionHelper = new CollisionHelper();
         MainWorld gw = MainWorld.get();
         y = _y;
         this.layer = layer;

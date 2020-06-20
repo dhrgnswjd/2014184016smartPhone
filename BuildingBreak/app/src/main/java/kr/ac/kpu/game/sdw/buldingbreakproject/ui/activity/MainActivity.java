@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(gameView);
 
         //postUpdate();
-
     }
 
     /*private void postUpdate() {

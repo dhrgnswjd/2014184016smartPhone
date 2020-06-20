@@ -5,10 +5,13 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BitmapObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Character;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.UserButton;
 
 public class MainWorld extends GameWorld {
     private static final String TAG = MainWorld.class.getSimpleName();
@@ -27,6 +30,7 @@ public class MainWorld extends GameWorld {
     public void initObjects() {
         add(Layer.building, new BuildingLayer());
         add(Layer.player, new Character());
+        add(Layer.ui, new UserButton(500,500,550,550, R.mipmap.enemy_01));
     }
 
     @Override
@@ -46,6 +50,7 @@ public class MainWorld extends GameWorld {
     }
     public enum Layer{
         bg,building,player,ui,COUNT
+
     }
     public float getLand(int halfszie){
         return rect.bottom - halfszie;

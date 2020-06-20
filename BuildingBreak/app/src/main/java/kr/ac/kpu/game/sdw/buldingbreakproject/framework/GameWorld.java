@@ -4,13 +4,16 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Character;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Touchable;
 
 public abstract class GameWorld {
 
@@ -94,6 +97,7 @@ public abstract class GameWorld {
                 o.update();
             }
         }
+
     }
 
     public void setRect(Rect rect) {
@@ -130,4 +134,20 @@ public abstract class GameWorld {
     public long getCurrentTimeNanos(){
         return frameTimeNanos;
     }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        //Log.d(TAG,"down");
+        for (ArrayList<GameObject> objects: layers) {
+            for (GameObject o : objects) {
+                if (o instanceof Touchable) {
+                    boolean ret = ((Touchable) o).onTouchEvent(event);
+                    /*if (ret) {
+                        return true;
+                    }*/
+                }
+            }
+        }
+        return false;
+    }
+
 }
