@@ -141,9 +141,9 @@ public abstract class GameWorld {
             for (GameObject o : objects) {
                 if (o instanceof Touchable) {
                     boolean ret = ((Touchable) o).onTouchEvent(event);
-                    /*if (ret) {
+                    if (ret) {
                         return true;
-                    }*/
+                    }
                 }
             }
         }

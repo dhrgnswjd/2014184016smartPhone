@@ -15,7 +15,7 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.UserButton;
 
 public class MainWorld extends GameWorld {
     private static final String TAG = MainWorld.class.getSimpleName();
-
+    private Character _player;
     public static void create() {
         if(singleton != null){
             Log.e(TAG, "object already created");
@@ -29,8 +29,31 @@ public class MainWorld extends GameWorld {
     @Override
     public void initObjects() {
         add(Layer.building, new BuildingLayer());
-        add(Layer.player, new Character());
-        add(Layer.ui, new UserButton(500,500,550,550, R.mipmap.enemy_01));
+
+        _player = new Character();
+        add(Layer.player,_player);
+
+        UserButton btnJump = new UserButton(rect.right*0.2f,rect.bottom*0.9f,200,150, R.mipmap.enemy_01);
+        btnJump.setOnClickRunnable(true, new Runnable() {
+            @Override
+            public void run() {
+                _player.jump();
+            }
+        });
+
+        add(Layer.ui,btnJump);
+
+        UserButton btnAttack = new UserButton(rect.right*0.8f,rect.bottom*0.9f,200,150, R.mipmap.enemy_01);
+        btnAttack.setOnClickRunnable(true, new Runnable() {
+            @Override
+            public void run() {
+                _player.attack();
+
+            }
+        });
+
+        add(Layer.ui,btnAttack);
+
     }
 
     @Override

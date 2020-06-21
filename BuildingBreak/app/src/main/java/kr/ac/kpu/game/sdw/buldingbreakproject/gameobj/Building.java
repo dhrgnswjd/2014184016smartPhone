@@ -3,11 +3,12 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.gameobj;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.CollisionHelper;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
 import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
@@ -22,10 +23,15 @@ public class Building implements BoxCollidable{
     private static int h_half;
     private static int width;
     private static int w_half;
-    private static float speed;
     private static float time;
     private int layer;
+    private int hp = 50;
+    private boolean destroy = false;
+
+    private static ArrayList<GameObject> characters;
+    private static ArrayList<GameObject> buildingLayer;
     CollisionHelper collisionHelper = new CollisionHelper();
+    private FrameAnimationBitmap fab;
 
     public Building(int layer) {
         MainWorld gw = MainWorld.get();
@@ -38,32 +44,75 @@ public class Building implements BoxCollidable{
         w_half = width/2;
         x = gw.getRight()/2;
         y = gw.getTop();
+
+        characters = gw.getobjectAt(MainWorld.Layer.player);
+        buildingLayer = gw.getobjectAt(MainWorld.Layer.building);
+
     }
 
-    public void update(float _y,int layer) {
-
+    public void update(float _y, int layer, float speed) {
+        BuildingLayer bl = (BuildingLayer)buildingLayer.get(0);
+        Character c = (Character)characters.get(0);
         CollisionHelper collisionHelper = new CollisionHelper();
         MainWorld gw = MainWorld.get();
         y = _y;
         this.layer = layer;
-        ArrayList<GameObject> characters = gw.getobjectAt(MainWorld.Layer.player);
-        ArrayList<GameObject> buildingLayer = gw.getobjectAt(MainWorld.Layer.building);
-        BuildingLayer bl = (BuildingLayer)buildingLayer.get(0);
-        Character c = (Character)characters.get(0);
-        if(collisionHelper.collides(c,this)){
-            //bl.setIndex();
 
-            if(c.getState()== Character.State.idle){
-                bl.setIndex();
-            }
-            if(c.getState() == Character.State.shield){
-                bl.setShield();
+        if(!destroy) {
+            if (collisionHelper.collides(c, this)) {
+                switch (c.getState()) {
+
+                    case idle:
+                        c.dgreeLife();
+                        break;
+                    case jump:
+                        c.setJumpPower(speed);
+                        break;
+                    case attack1_jump:
+                        if(c.doneAttack()){
+                            Log.d("this","this");
+                            bl.setDestroy();
+                            destroy = true;
+                        }
+
+                        break;
+                    case attack2_jump:
+                        break;
+
+                    case attack_stand:
+                        if(c.doneAttack()){
+                            bl.setDestroy();
+                            destroy = true;
+                        }
+                        break;
+                    case shield:
+                        bl.setShield();
+                        break;
+                    case power:
+
+                        break;
+                    case power_jump:
+
+                        break;
+                    default:
+                }
+
+                /*if (c.getState() == Character.State.idle) {
+                    bl.setDestroy();
+                }
+                if (c.getState() == Character.State.shield) {
+                    bl.setShield();
+                }*/
             }
         }
 
 
 
 
+
+    }
+
+    private void degreeHP() {
 
     }
 

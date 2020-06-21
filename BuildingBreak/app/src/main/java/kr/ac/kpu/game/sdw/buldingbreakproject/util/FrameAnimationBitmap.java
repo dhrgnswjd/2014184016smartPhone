@@ -48,7 +48,6 @@ public class FrameAnimationBitmap {
         Rect rectSrc = new Rect(size*index,size*layer,(size * (index+1)),size*(layer+1));
         RectF rectDst = new RectF(x - halfSize, y - halfSize, x+halfSize,y+halfSize);
         canvas.drawBitmap(bitmap,rectSrc, rectDst,null);
-
         //Log.d(this.getClass().getName(),"d"+layer);
     }
 
@@ -58,5 +57,15 @@ public class FrameAnimationBitmap {
 
     public int getWidth() {
         return width;
+    }
+    public boolean done(){
+        return indexTimer.done();
+    }
+    public boolean doneAttack(){
+        return indexTimer.doneAttack();
+    }
+
+    public void reset() {
+        indexTimer.reset();
     }
 }

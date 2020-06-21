@@ -22,6 +22,9 @@ public class UserButton implements GameObject,BoxCollidable,Touchable{
     private RectF dstRect;
     private float x;
     private float y;
+    private boolean capturing, pressed;
+    private Runnable onClickRunnable;
+    private boolean runOnDown;
 
     public UserButton(float x, float y, int _width, int _height, int resId) {
         MainWorld mw = MainWorld.get();
@@ -60,13 +63,26 @@ public class UserButton implements GameObject,BoxCollidable,Touchable{
         CollisionHelper ch = new CollisionHelper();
         if(e.getAction() == MotionEvent.ACTION_DOWN){
             if(ch.collides(this,e.getX(),e.getY())){
+                capturing = true;
+                pressed = true;
 
+                if (onClickRunnable != null && runOnDown) {
+                    onClickRunnable.run();
+                }
+                return true;
             }
         }
         //Log.d(TAG,"down");
         //Log.d(TAG,"x = " + e.getX() + "y = " + e.getY());
 
-        return true;
+        return false;
+    }
+    public void setOnClickRunnable(Runnable runnable) {
+        setOnClickRunnable(false, runnable);
+    }
+    public void setOnClickRunnable(boolean runOnDown, Runnable runnable) {
+        this.runOnDown = runOnDown;
+        this.onClickRunnable = runnable;
     }
 }
 
