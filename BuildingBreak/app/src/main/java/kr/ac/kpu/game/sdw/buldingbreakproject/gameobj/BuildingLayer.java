@@ -12,7 +12,7 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class BuildingLayer implements GameObject {
 
-    private static final float USER_GRAVITY = 100;
+    private static final float USER_GRAVITY = 350;
     private static final float USER_UP_FORCE = 400;
     private ArrayList<Building> b = new ArrayList<>();
     private OneBuildingBitmap ob;
@@ -29,7 +29,9 @@ public class BuildingLayer implements GameObject {
     MainWorld gw = MainWorld.get();
     private float shild;
     private float force;
+    boolean spawn = false;
     DeltaTime dt = new DeltaTime();
+    private float spawnTime = 0;
 
     public BuildingLayer() {
         Resources res = gw.getResources();
@@ -37,6 +39,7 @@ public class BuildingLayer implements GameObject {
         for(int i = 0 ; i < 5; i++) {
             b.add(new Building(i));
         }
+
         height = OneBuildingBitmap.getHeight();
         width = OneBuildingBitmap.getWidth();
         h_half = height/2;
@@ -54,14 +57,24 @@ public class BuildingLayer implements GameObject {
 
         y += speed * time;
         //Log.d(this.getClass().getName(),"call" + index);
-        if(y >= gw.getLand(h_half)-200 + index*height){
-            y =gw.getLand(h_half)-200 + index*height;
-        }
 
-        for(int i = index ; i < 5; i ++){
-            b.get(i).update(y, i,this.speed);
+        if(spawn == true){
+            spawnTime += time*1;
+            if(spawnTime >= 3){
+                spawn();
+            }
         }
+        else{
+            if(y >= gw.getLand(h_half)-200 + index*height){
+                y =gw.getLand(h_half)-200 + index*height;
+                speed = 0;
+            }
 
+            for(int i = index ; i < 5; i ++){
+                b.get(i).update(y, i,this.speed);
+            }
+
+        }
     }
 
     public void draw(Canvas canvas) {
@@ -75,8 +88,11 @@ public class BuildingLayer implements GameObject {
     }
     public void setDestroy(){
         this.index++;
+        ScoreObject so = ScoreObject.get();
+        so.addScore(100);
         if(index >= 5){
-            spawn();
+            spawn = true;
+            index = 5;
         }
     }
 
@@ -89,6 +105,8 @@ public class BuildingLayer implements GameObject {
         index = 0;
         speed = 0;
         force = 0;
+        spawn = false;
+        spawnTime = 0;
     }
 
 

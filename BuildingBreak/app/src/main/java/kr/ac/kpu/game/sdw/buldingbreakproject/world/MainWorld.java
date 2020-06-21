@@ -11,6 +11,7 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BitmapObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Character;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.ScoreObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.UserButton;
 
 public class MainWorld extends GameWorld {
@@ -76,6 +77,10 @@ public class MainWorld extends GameWorld {
         });
 
         add(Layer.ui,btnPower);
+
+        ScoreObject so = ScoreObject.get();
+        so.initScoreObject(rect.right*0.95f,rect.bottom*0.05f);
+        add(Layer.ui,so);
 
     }
 

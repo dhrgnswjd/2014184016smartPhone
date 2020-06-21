@@ -70,7 +70,6 @@ public class Building implements BoxCollidable{
                         break;
                     case attack1_jump:
                         if(c.doneAttack()){
-                            Log.d("this","this");
                             bl.setDestroy();
                             destroy = true;
                         }

@@ -2,6 +2,7 @@ package kr.ac.kpu.game.sdw.buldingbreakproject.framework;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -23,6 +24,8 @@ public abstract class GameWorld {
     protected Resources res;
     protected long frameTimeNanos;
     protected long timeDiffNanos;
+    private int scoreValue;
+    private Paint scorePaint;
 
     public static GameWorld get() {
         if (singleton == null) {
@@ -84,6 +87,8 @@ public abstract class GameWorld {
                 o.draw(canvas);
             }
         }
+
+
     }
 
     public void update(long frameTimeNanos) {

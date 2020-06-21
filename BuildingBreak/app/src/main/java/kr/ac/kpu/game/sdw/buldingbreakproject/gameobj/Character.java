@@ -216,7 +216,7 @@ public class Character implements GameObject,BoxCollidable{
     }
 
     public void attack() {
-        Log.d(this.getClass().getName(),"jump");
+        //Log.d(this.getClass().getName(),"jump");
         if(attacking == false && specialKey ==false) {
             attacking = true;
             fabAttack_stand.reset();
