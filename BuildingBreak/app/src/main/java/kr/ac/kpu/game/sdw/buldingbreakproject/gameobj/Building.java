@@ -105,7 +105,7 @@ public class Building implements BoxCollidable{
                         break;
                     case attack1_jump:
 
-                            c.setJumpPower(speed);
+                        c.setJumpPower(speed);
 
                         break;
                     case attack2_jump:
