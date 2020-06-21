@@ -27,4 +27,11 @@ public class CollisionHelper {
         }
         return false;
     }
+    public boolean collides(BoxCollidable o1, BoxCollidable o2,int x){
+        o1.getBox(r1,0);
+        o2.getBox(r2,0);
+        if (r1.top <= r2.bottom)
+            return true;
+        return false;
+    }
 }

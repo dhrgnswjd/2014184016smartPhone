@@ -42,4 +42,9 @@ public class BitmapObject implements GameObject,BoxCollidable{
     public void getBox(RectF rect) {
         rect = new RectF(x-user_width*0.5f,y-user_height*0.5f,x+user_width*0.5f,y+user_height*0.5f);
     }
+
+    @Override
+    public void getBox(RectF rect, int x) {
+
+    }
 }

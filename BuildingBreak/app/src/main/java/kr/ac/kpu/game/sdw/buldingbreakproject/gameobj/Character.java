@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.SoundEffects;
 import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class Character implements GameObject,BoxCollidable{
@@ -57,15 +58,21 @@ public class Character implements GameObject,BoxCollidable{
 
     @Override
     public void getBox(RectF rect) {
-        if(attacking == true){
-            rect.top = y - h_half * 1.5f;
-        }else {
-            rect.left = x - w_half;
-            rect.right = x + w_half;
-            rect.bottom = y + h_half;
-            rect.top = y - h_half * 0.3f;
-        }
 
+        rect.left = x - w_half;
+        rect.right = x + w_half;
+        rect.bottom = y + h_half;
+        rect.top = y - h_half * 0.2f;
+
+
+    }
+
+    @Override
+    public void getBox(RectF rect, int x) {
+        rect.left = x - w_half;
+        rect.right = x + w_half;
+        rect.bottom = y + h_half;
+        rect.top = y - h_half * 1.5f;
     }
 
     public State getState(){
@@ -113,6 +120,12 @@ public class Character implements GameObject,BoxCollidable{
 
     public boolean getAttacking() {
         return attacking;
+    }
+
+    public void setY(float y) {
+        if(this.y < y){
+            speed += time*USER_GRAVITY;
+        }
     }
 
 
@@ -263,13 +276,13 @@ public class Character implements GameObject,BoxCollidable{
             attacking = true;
             fabAttack_stand.reset();
             fabAttack1_jump.reset();
-
+            SoundEffects.get().play(R.raw.slash2);
 
         }
     }
     public void jump() {
         if(specialKey ==false && jumpCount < 2) {
-
+            SoundEffects.get().play(R.raw.jump);
             speed = JUMP_POWER;
             jumping = true;
             jumpCount++;
@@ -283,7 +296,7 @@ public class Character implements GameObject,BoxCollidable{
 
     public void shield() {
         int score = so.getScore();
-        if(shileding == false && specialKey ==false && powering == false&& score >= 100) {
+        if(shileding == false && specialKey ==false && powering == false&& score >= 50) {
             stateTime = 0;
             shileding = true;
             specialKey = true;
@@ -293,13 +306,14 @@ public class Character implements GameObject,BoxCollidable{
     }
     public void power() {
         int score = so.getScore();
-        if(powering == false && specialKey ==false && shileding == false && score>= 1000) {
+        if(powering == false && specialKey ==false && shileding == false && score>= 200) {
+            SoundEffects.get().play(R.raw.waza);
             stateTime = 0;
             powering = true;
             specialKey = true;
             fabPower_Jump.reset();
             speed = -2000;
-            so.minusScore(1000);
+            so.minusScore(200);
         }
     }
 

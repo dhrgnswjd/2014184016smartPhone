@@ -59,6 +59,11 @@ public class UserButton implements GameObject,BoxCollidable,Touchable{
     }
 
     @Override
+    public void getBox(RectF rect, int x) {
+
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent e) {
         CollisionHelper ch = new CollisionHelper();
         if(e.getAction() == MotionEvent.ACTION_DOWN){

@@ -5,9 +5,11 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 import kr.ac.kpu.game.sdw.buldingbreakproject.framework.GameWorld;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.DeltaTime;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.SoundEffects;
 import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class BuildingLayer implements GameObject {
@@ -89,6 +91,7 @@ public class BuildingLayer implements GameObject {
     }
     public void setDestroy(){
         this.index++;
+        SoundEffects.get().play(R.raw.tubure);
         ScoreObject so = ScoreObject.get();
         so.addScore(100);
         if(index >= 5){

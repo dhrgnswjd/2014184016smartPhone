@@ -7,9 +7,11 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.ac.kpu.game.sdw.buldingbreakproject.R;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.CollisionHelper;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.FrameAnimationBitmap;
 import kr.ac.kpu.game.sdw.buldingbreakproject.util.OneBuildingBitmap;
+import kr.ac.kpu.game.sdw.buldingbreakproject.util.SoundEffects;
 import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class Building implements BoxCollidable{
@@ -65,6 +67,33 @@ public class Building implements BoxCollidable{
             attacking =false;
         }
         if(!destroy) {
+
+            if(hp <= 0){
+                bl.setDestroy();
+                destroy = true;
+            }
+            if(collisionHelper.collides(c,this,0)) {
+                switch (c.getState()) {
+                    case attack1_jump:
+                        if (c.doneAttack() && attacking == false) {
+                            attacking = true;
+                            degreeHP();
+                            SoundEffects.get().play(R.raw.bougyo);
+                        }
+                        break;
+                    case attack_stand:
+                        if (c.doneAttack() && attacking == false) {
+                            attacking = true;
+                            degreeHP();
+                            SoundEffects.get().play(R.raw.bougyo);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
             if (collisionHelper.collides(c, this)) {
                 switch (c.getState()) {
 
@@ -75,31 +104,21 @@ public class Building implements BoxCollidable{
                         c.setJumpPower(speed);
                         break;
                     case attack1_jump:
-                        if(c.doneAttack()&&attacking ==false) {
-                            attacking = true;
-                            degreeHP();
-                            if (attacking == false) {
-                                c.setJumpPower(speed);
-                            }
-                        }
 
+                            c.setJumpPower(speed);
 
                         break;
                     case attack2_jump:
                         break;
 
                     case attack_stand:
-                        if(c.doneAttack()&&attacking == false){
-                            attacking = true;
-                            degreeHP();
 
-                        }
-                        else{
-                            c.dgreeLife();
-                        }
+                        c.dgreeLife();
+
                         break;
                     case shield:
                         bl.setShield();
+                        SoundEffects.get().play(R.raw.bougyo);
                         break;
                     case power:
                         bl.setDestroy();
@@ -142,6 +161,14 @@ public class Building implements BoxCollidable{
 
     @Override
     public void getBox(RectF rect) {
+        rect.left = x - w_half;
+        rect.right = x + w_half;
+        rect.bottom = y + h_half - (height*layer);
+        rect.top = y - h_half;
+    }
+
+    @Override
+    public void getBox(RectF rect, int x) {
         rect.left = x - w_half;
         rect.right = x + w_half;
         rect.bottom = y + h_half - (height*layer);
