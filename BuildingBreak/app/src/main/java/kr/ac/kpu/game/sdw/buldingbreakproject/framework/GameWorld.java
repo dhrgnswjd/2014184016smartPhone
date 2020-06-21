@@ -7,12 +7,9 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 
-import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
-import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Character;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Touchable;
 
@@ -154,5 +151,13 @@ public abstract class GameWorld {
         }
         return false;
     }
+    protected boolean done;
+    public void setAttacking(boolean done){
 
+        this.done = done;
+    }
+
+    public boolean getAttacking(){
+        return this.done;
+    }
 }

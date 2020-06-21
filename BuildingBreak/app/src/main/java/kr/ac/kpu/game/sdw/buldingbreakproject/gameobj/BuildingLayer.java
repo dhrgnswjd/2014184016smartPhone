@@ -12,8 +12,8 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 
 public class BuildingLayer implements GameObject {
 
-    private static final float USER_GRAVITY = 350;
-    private static final float USER_UP_FORCE = 400;
+    private static final float USER_GRAVITY = 150;
+    private static final float USER_UP_FORCE = 600;
     private ArrayList<Building> b = new ArrayList<>();
     private OneBuildingBitmap ob;
     private int layer;
@@ -32,12 +32,13 @@ public class BuildingLayer implements GameObject {
     boolean spawn = false;
     DeltaTime dt = new DeltaTime();
     private float spawnTime = 0;
+    private int level =1;
 
     public BuildingLayer() {
         Resources res = gw.getResources();
         ob = OneBuildingBitmap.load(res);
         for(int i = 0 ; i < 5; i++) {
-            b.add(new Building(i));
+            b.add(new Building(i,level));
         }
 
         height = OneBuildingBitmap.getHeight();
@@ -98,8 +99,9 @@ public class BuildingLayer implements GameObject {
 
     private void spawn() {
         b.clear();
+        level++;
         for(int i = 0 ; i < 5; i++) {
-            b.add(new Building(i));
+            b.add(new Building(i,level));
         }
         y = gw.getTop();
         index = 0;

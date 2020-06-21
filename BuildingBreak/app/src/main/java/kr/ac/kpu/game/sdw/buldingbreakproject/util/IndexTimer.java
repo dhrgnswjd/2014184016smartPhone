@@ -19,7 +19,7 @@ public class IndexTimer {
         int index = (int)((elapsed * fps + 500000000) / 1000000000);
         return index % count;*/
         int index = getRawIndex();
-        //Log.d("this", "this" + index%count);
+        //Log.d("this", "this" + index % count);
         return index % count;
     }
 
@@ -31,9 +31,10 @@ public class IndexTimer {
 
     public boolean done(){
         /*int i = getIndex();
-        Log.d(this.getClass().getName(),"false" + i + " "+ count );
+
         return i >= (count-1);*/
         int index = getIndex();
+        //Log.d(this.getClass().getName(),"false"  +  +index+" "+ count );
         return index >= count-1;
     }
     public boolean doneAttack(){
@@ -41,7 +42,7 @@ public class IndexTimer {
         Log.d(this.getClass().getName(),"false" + i + " "+ count );
         return i >= (count-1);*/
         int index = getIndex();
-        return index == (count-1)/2;
+        return index >= (count-1)*0.5f;
     }
 
     public void reset() {

@@ -25,15 +25,17 @@ public class Building implements BoxCollidable{
     private static int w_half;
     private static float time;
     private int layer;
-    private int hp = 50;
+    private int hp;
     private boolean destroy = false;
+    private boolean attacking = false;
+    private static int level;
 
     private static ArrayList<GameObject> characters;
     private static ArrayList<GameObject> buildingLayer;
     CollisionHelper collisionHelper = new CollisionHelper();
     private FrameAnimationBitmap fab;
 
-    public Building(int layer) {
+    public Building(int layer, int level) {
         MainWorld gw = MainWorld.get();
         Resources res = gw.getResources();
         this.ob = OneBuildingBitmap.load(res);
@@ -44,7 +46,7 @@ public class Building implements BoxCollidable{
         w_half = width/2;
         x = gw.getRight()/2;
         y = gw.getTop();
-
+        hp = 10*level;
         characters = gw.getobjectAt(MainWorld.Layer.player);
         buildingLayer = gw.getobjectAt(MainWorld.Layer.building);
 
@@ -56,8 +58,12 @@ public class Building implements BoxCollidable{
         CollisionHelper collisionHelper = new CollisionHelper();
         MainWorld gw = MainWorld.get();
         y = _y;
+        boolean _attacking = c.getAttacking();
         this.layer = layer;
 
+        if(_attacking == false){
+            attacking =false;
+        }
         if(!destroy) {
             if (collisionHelper.collides(c, this)) {
                 switch (c.getState()) {
@@ -69,19 +75,27 @@ public class Building implements BoxCollidable{
                         c.setJumpPower(speed);
                         break;
                     case attack1_jump:
-                        if(c.doneAttack()){
-                            bl.setDestroy();
-                            destroy = true;
+                        if(c.doneAttack()&&attacking ==false) {
+                            attacking = true;
+                            degreeHP();
+                            if (attacking == false) {
+                                c.setJumpPower(speed);
+                            }
                         }
+
 
                         break;
                     case attack2_jump:
                         break;
 
                     case attack_stand:
-                        if(c.doneAttack()){
-                            bl.setDestroy();
-                            destroy = true;
+                        if(c.doneAttack()&&attacking == false){
+                            attacking = true;
+                            degreeHP();
+
+                        }
+                        else{
+                            c.dgreeLife();
                         }
                         break;
                     case shield:
@@ -96,12 +110,17 @@ public class Building implements BoxCollidable{
                     default:
                 }
 
+                if(hp <= 0){
+                    bl.setDestroy();
+                    destroy = true;
+                }
                 /*if (c.getState() == Character.State.idle) {
                     bl.setDestroy();
                 }
                 if (c.getState() == Character.State.shield) {
                     bl.setShield();
                 }*/
+
             }
         }
 
@@ -112,6 +131,7 @@ public class Building implements BoxCollidable{
     }
 
     private void degreeHP() {
+        hp -= 10;
 
     }
 

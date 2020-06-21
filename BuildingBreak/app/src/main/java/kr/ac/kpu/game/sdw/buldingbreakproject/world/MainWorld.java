@@ -11,12 +11,14 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BitmapObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.BuildingLayer;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.Character;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.GameObject;
+import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.LifeObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.ScoreObject;
 import kr.ac.kpu.game.sdw.buldingbreakproject.gameobj.UserButton;
 
 public class MainWorld extends GameWorld {
     private static final String TAG = MainWorld.class.getSimpleName();
     private Character _player;
+    private LifeObject lo;
     public static void create() {
         if(singleton != null){
             Log.e(TAG, "object already created");
@@ -82,6 +84,12 @@ public class MainWorld extends GameWorld {
         so.initScoreObject(rect.right*0.95f,rect.bottom*0.05f);
         add(Layer.ui,so);
 
+        lo = new LifeObject(rect.right*0.05f,rect.bottom*0.08f);
+        add(Layer.ui,lo);
+
+    }
+    public void setLife(int life){
+        lo.setLife(life);
     }
 
     @Override

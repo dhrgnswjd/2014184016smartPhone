@@ -16,7 +16,7 @@ public class Character implements GameObject,BoxCollidable{
     public static final int FRAME_PER_SECOND = 20;
     private static final float JUMP_POWER = -1500;
     private static final float USER_GRAVITY = 1200;
-    private static final float STATE_TIME = 2;
+    private static final float STATE_TIME = 10;
     private FrameAnimationBitmap fab;
     private final FrameAnimationBitmap fabIdle;
     private final FrameAnimationBitmap fabJump;
@@ -30,38 +30,42 @@ public class Character implements GameObject,BoxCollidable{
     private final int h_half;
     private final int width;
     private final int w_half;
-    private static float land;
-    private static float time;
-    private static float speed;
-    private static float stateTime = 0;
+    private float land;
+    private float time;
+    private float speed;
+    private float stateTime = 0;
+    private float lifeCoolTime = 0;
+    private int jumpCount = 0;
 
 
-    private static boolean jumping = false;
-    private static boolean attacking = false;
-    private static boolean shileding = false;
-    private static boolean powering = false;
-    private static boolean specialKey = false;
+    private boolean jumping = false;
+    private boolean attacking = false;
+    private boolean shileding = false;
+    private boolean powering = false;
+    private boolean specialKey = false;
+    private boolean lifeCooling = false;
 
-
+    private static int life = 5;
     private float y;
     private float x;
     int halfSize;
     MainWorld gw = MainWorld.get();
     private static ArrayList<GameObject> buildingLayer;
     private DeltaTime dt = new DeltaTime();
+    ScoreObject so = ScoreObject.get();
 
 
     @Override
     public void getBox(RectF rect) {
-        if(attacking) {
-            rect.top = y - height*0.75f;
-        }
-        else {
+        if(attacking == true){
+            rect.top = y - h_half * 1.5f;
+        }else {
             rect.left = x - w_half;
             rect.right = x + w_half;
             rect.bottom = y + h_half;
-            rect.top = y - h_half;
+            rect.top = y - h_half * 0.3f;
         }
+
     }
 
     public State getState(){
@@ -70,17 +74,46 @@ public class Character implements GameObject,BoxCollidable{
 
 
     public void dgreeLife() {
+        if(lifeCooling == false) {
+            life--;
+            lifeCooling = true;
+            if(life <= 0){
+                life = 0;
+            }
+        }
+        gw.setLife(life);
     }
 
     public void setJumpPower(float speed) {
-        this.speed = speed;
+        if(speed < 0)
+            this.speed = -speed;
+        else
+            this.speed = speed;
     }
 
     public boolean doneAttack() {
         return fab.doneAttack();
     }
+    public boolean done(){
 
+        return fab.done();
 
+    }
+    public boolean standAttackdone(){
+        return fabAttack_stand.done();
+    }
+    public boolean jumpAttackdone(){
+        return fabAttack1_jump.done();
+    }
+
+    public void reset() {
+        fab.reset();
+        attacking = false;
+    }
+
+    public boolean getAttacking() {
+        return attacking;
+    }
 
 
     public static enum State{
@@ -120,12 +153,19 @@ public class Character implements GameObject,BoxCollidable{
         //Log.d(this.getClass().getName(),"time" + time);
         speed += USER_GRAVITY*time;
         y += speed * time;
-
+        if(lifeCooling == true) {
+            lifeCoolTime += time * 1;
+            if(lifeCoolTime >= 3){
+                lifeCoolTime = 0;
+                lifeCooling = false;
+            }
+        }
         if(specialKey == false) {
 
             if (y >= land) {//땅
                 y = land;
                 jumping = false;
+                jumpCount = 0;
                 if (!attacking) {//노말
                     setAnimState(State.idle);
 
@@ -134,7 +174,9 @@ public class Character implements GameObject,BoxCollidable{
                     if (fab.done()) {
                         fab.reset();
                         attacking = false;
+
                     }
+                    gw.setAttacking(fab.done());
                 }
             } else {//점프
 
@@ -222,36 +264,42 @@ public class Character implements GameObject,BoxCollidable{
             fabAttack_stand.reset();
             fabAttack1_jump.reset();
 
+
         }
     }
     public void jump() {
-        if(jumping == false && specialKey ==false) {
+        if(specialKey ==false && jumpCount < 2) {
 
-            speed += JUMP_POWER;
+            speed = JUMP_POWER;
             jumping = true;
-
-            if (speed > JUMP_POWER) {
+            jumpCount++;
+            /*if (speed > JUMP_POWER) {
                 speed = JUMP_POWER;
-            }
+
+            }*/
         }
 
     }
 
     public void shield() {
-        if(shileding == false && specialKey ==false && powering == false) {
+        int score = so.getScore();
+        if(shileding == false && specialKey ==false && powering == false&& score >= 100) {
             stateTime = 0;
             shileding = true;
             specialKey = true;
             fabShield.reset();
+            so.minusScore(100);
         }
     }
     public void power() {
-        if(powering == false && specialKey ==false && shileding == false) {
+        int score = so.getScore();
+        if(powering == false && specialKey ==false && shileding == false && score>= 1000) {
             stateTime = 0;
             powering = true;
             specialKey = true;
             fabPower_Jump.reset();
             speed = -2000;
+            so.minusScore(1000);
         }
     }
 

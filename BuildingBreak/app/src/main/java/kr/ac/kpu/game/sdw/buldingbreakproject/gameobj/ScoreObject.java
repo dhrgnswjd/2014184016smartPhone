@@ -87,5 +87,8 @@ public class ScoreObject implements GameObject{
     }
     public void minusScore(int score){
         scoreValue -= score;
+        scoreAnimator.setIntValues(scoreDisplay,scoreValue);
+        scoreAnimator.setDuration(500);
+        scoreAnimator.start();
     }
 }
