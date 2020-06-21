@@ -89,10 +89,10 @@ public class Building implements BoxCollidable{
                         bl.setShield();
                         break;
                     case power:
-
+                        bl.setDestroy();
                         break;
                     case power_jump:
-
+                        bl.setDestroy();
                         break;
                     default:
                 }

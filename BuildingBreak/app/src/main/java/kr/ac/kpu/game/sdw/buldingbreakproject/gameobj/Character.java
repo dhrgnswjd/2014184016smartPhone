@@ -15,7 +15,8 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 public class Character implements GameObject,BoxCollidable{
     public static final int FRAME_PER_SECOND = 20;
     private static final float JUMP_POWER = -1500;
-    private static final float USER_GRAVITY = 1000;
+    private static final float USER_GRAVITY = 1200;
+    private static final float STATE_TIME = 2;
     private FrameAnimationBitmap fab;
     private final FrameAnimationBitmap fabIdle;
     private final FrameAnimationBitmap fabJump;
@@ -32,10 +33,14 @@ public class Character implements GameObject,BoxCollidable{
     private static float land;
     private static float time;
     private static float speed;
+    private static float stateTime = 0;
 
 
     private static boolean jumping = false;
     private static boolean attacking = false;
+    private static boolean shileding = false;
+    private static boolean powering = false;
+    private static boolean specialKey = false;
 
 
     private float y;
@@ -44,6 +49,7 @@ public class Character implements GameObject,BoxCollidable{
     MainWorld gw = MainWorld.get();
     private static ArrayList<GameObject> buildingLayer;
     private DeltaTime dt = new DeltaTime();
+
 
     @Override
     public void getBox(RectF rect) {
@@ -67,12 +73,14 @@ public class Character implements GameObject,BoxCollidable{
     }
 
     public void setJumpPower(float speed) {
-        this.speed = speed + 10;
+        this.speed = speed;
     }
 
     public boolean doneAttack() {
         return fab.doneAttack();
     }
+
+
 
 
     public static enum State{
@@ -91,7 +99,7 @@ public class Character implements GameObject,BoxCollidable{
         fabAttack2_jump = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,5,3);
         fabPower = FrameAnimationBitmap.load(res, R.mipmap.character, 1,1,1);
         fabShield = FrameAnimationBitmap.load(res, R.mipmap.character, 1,1,4);
-        fabPower_Jump = FrameAnimationBitmap.load(res, R.mipmap.character, FRAME_PER_SECOND,5,1);
+        fabPower_Jump = FrameAnimationBitmap.load(res, R.mipmap.character, 7,5,1);
 
         height = fabIdle.getHeight();
         width = fabIdle.getWidth();
@@ -113,29 +121,53 @@ public class Character implements GameObject,BoxCollidable{
         speed += USER_GRAVITY*time;
         y += speed * time;
 
-        if( y >= land){//땅
-            y = land;
-            jumping = false;
-            if(!attacking){//노말
-                setAnimState(State.idle);
+        if(specialKey == false) {
 
-            }else{//공격
-                setAnimState(State.attack_stand);
-                if(fab.done()){
-                    fab.reset();
-                    attacking = false;
+            if (y >= land) {//땅
+                y = land;
+                jumping = false;
+                if (!attacking) {//노말
+                    setAnimState(State.idle);
+
+                } else {//공격
+                    setAnimState(State.attack_stand);
+                    if (fab.done()) {
+                        fab.reset();
+                        attacking = false;
+                    }
+                }
+            } else {//점프
+
+                if (!attacking) {//노말
+                    setAnimState(State.jump);
+                    jumping = true;
+                } else {//공격
+                    setAnimState(State.attack1_jump);
+                    if (fab.done()) {
+                        attacking = false;
+                        fab.reset();
+                    }
                 }
             }
-        }else{//점프
-
-            if(!attacking){//노말
-                setAnimState(State.jump);
-                jumping = true;
-            }else{//공격
-                setAnimState(State.attack1_jump);
-                if(fab.done()){
-                    attacking = false;
-                    fab.reset();
+        }else{
+            if (y >= land) {//땅
+                y = land;
+                jumping = false;
+            }
+            if(shileding == true){
+                setAnimState(State.shield);
+                stateTime += time*STATE_TIME;
+                if(stateTime >= STATE_TIME){
+                    shileding = false;
+                    specialKey = false;
+                }
+            }
+            if(powering == true){
+                setAnimState(State.power_jump);
+                stateTime += time*STATE_TIME;
+                if(stateTime >= STATE_TIME){
+                    powering = false;
+                    specialKey = false;
                 }
             }
         }
@@ -185,7 +217,7 @@ public class Character implements GameObject,BoxCollidable{
 
     public void attack() {
         Log.d(this.getClass().getName(),"jump");
-        if(!attacking) {
+        if(attacking == false && specialKey ==false) {
             attacking = true;
             fabAttack_stand.reset();
             fabAttack1_jump.reset();
@@ -193,7 +225,7 @@ public class Character implements GameObject,BoxCollidable{
         }
     }
     public void jump() {
-        if(!jumping) {
+        if(jumping == false && specialKey ==false) {
 
             speed += JUMP_POWER;
             jumping = true;
@@ -203,6 +235,24 @@ public class Character implements GameObject,BoxCollidable{
             }
         }
 
+    }
+
+    public void shield() {
+        if(shileding == false && specialKey ==false && powering == false) {
+            stateTime = 0;
+            shileding = true;
+            specialKey = true;
+            fabShield.reset();
+        }
+    }
+    public void power() {
+        if(powering == false && specialKey ==false && shileding == false) {
+            stateTime = 0;
+            powering = true;
+            specialKey = true;
+            fabPower_Jump.reset();
+            speed = -2000;
+        }
     }
 
 }

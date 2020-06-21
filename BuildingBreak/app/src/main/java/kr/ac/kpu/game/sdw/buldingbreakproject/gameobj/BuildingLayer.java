@@ -13,7 +13,7 @@ import kr.ac.kpu.game.sdw.buldingbreakproject.world.MainWorld;
 public class BuildingLayer implements GameObject {
 
     private static final float USER_GRAVITY = 100;
-    private static final float USER_UP_FORCE = 500;
+    private static final float USER_UP_FORCE = 400;
     private ArrayList<Building> b = new ArrayList<>();
     private OneBuildingBitmap ob;
     private int layer;

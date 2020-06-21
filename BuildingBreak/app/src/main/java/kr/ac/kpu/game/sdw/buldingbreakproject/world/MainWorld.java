@@ -28,12 +28,13 @@ public class MainWorld extends GameWorld {
 
     @Override
     public void initObjects() {
+        add(Layer.bg, new BitmapObject(rect.right/2,rect.bottom/2,rect.right,rect.bottom,R.mipmap.bg));
         add(Layer.building, new BuildingLayer());
 
         _player = new Character();
         add(Layer.player,_player);
 
-        UserButton btnJump = new UserButton(rect.right*0.2f,rect.bottom*0.9f,200,150, R.mipmap.enemy_01);
+        UserButton btnJump = new UserButton(rect.right*0.2f,rect.bottom*0.9f,150,150, R.mipmap.button0);
         btnJump.setOnClickRunnable(true, new Runnable() {
             @Override
             public void run() {
@@ -43,7 +44,7 @@ public class MainWorld extends GameWorld {
 
         add(Layer.ui,btnJump);
 
-        UserButton btnAttack = new UserButton(rect.right*0.8f,rect.bottom*0.9f,200,150, R.mipmap.enemy_01);
+        UserButton btnAttack = new UserButton(rect.right*0.8f,rect.bottom*0.9f,150,150, R.mipmap.button1);
         btnAttack.setOnClickRunnable(true, new Runnable() {
             @Override
             public void run() {
@@ -53,6 +54,28 @@ public class MainWorld extends GameWorld {
         });
 
         add(Layer.ui,btnAttack);
+
+        UserButton btnShield = new UserButton(rect.right*0.8f,rect.bottom*0.8f,150,150, R.mipmap.sheild);
+        btnShield.setOnClickRunnable(true, new Runnable() {
+            @Override
+            public void run() {
+                _player.shield();
+
+            }
+        });
+
+        add(Layer.ui,btnShield);
+
+        UserButton btnPower = new UserButton(rect.right*0.2f,rect.bottom*0.8f,150,150, R.mipmap.special);
+        btnPower.setOnClickRunnable(true, new Runnable() {
+            @Override
+            public void run() {
+                _player.power();
+
+            }
+        });
+
+        add(Layer.ui,btnPower);
 
     }
 
