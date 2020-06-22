@@ -93,7 +93,7 @@ public class Character implements GameObject,BoxCollidable{
 
     public void setJumpPower(float speed) {
         if(speed < 0)
-            this.speed = -speed;
+            this.speed =0;
         else
             this.speed = speed;
     }
