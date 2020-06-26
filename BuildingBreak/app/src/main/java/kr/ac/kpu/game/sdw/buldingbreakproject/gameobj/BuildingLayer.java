@@ -35,6 +35,7 @@ public class BuildingLayer implements GameObject {
     DeltaTime dt = new DeltaTime();
     private float spawnTime = 0;
     private int level =1;
+    private static ArrayList<GameObject> characters;
 
     public BuildingLayer() {
         Resources res = gw.getResources();
@@ -42,7 +43,7 @@ public class BuildingLayer implements GameObject {
         for(int i = 0 ; i < 5; i++) {
             b.add(new Building(i,level));
         }
-
+        characters = gw.getobjectAt(MainWorld.Layer.player);
         height = OneBuildingBitmap.getHeight();
         width = OneBuildingBitmap.getWidth();
         h_half = height/2;
@@ -60,7 +61,7 @@ public class BuildingLayer implements GameObject {
 
         y += speed * time;
         //Log.d(this.getClass().getName(),"call" + index);
-
+        Character c = (Character)characters.get(0);
         if(spawn == true){
             spawnTime += time*1;
             if(spawnTime >= 3){
@@ -71,6 +72,7 @@ public class BuildingLayer implements GameObject {
             if(y >= gw.getLand(h_half)-200 + index*height){
                 y =gw.getLand(h_half)-200 + index*height;
                 speed = 0;
+                c.dgreeLife();
             }
 
             for(int i = index ; i < 5; i ++){

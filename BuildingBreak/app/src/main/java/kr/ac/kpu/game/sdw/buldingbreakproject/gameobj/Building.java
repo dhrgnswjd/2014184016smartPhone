@@ -98,7 +98,7 @@ public class Building implements BoxCollidable{
                 switch (c.getState()) {
 
                     case idle:
-                        c.dgreeLife();
+                        //c.dgreeLife();
                         break;
                     case jump:
                         c.setJumpPower(speed);
@@ -113,7 +113,7 @@ public class Building implements BoxCollidable{
 
                     case attack_stand:
 
-                        c.dgreeLife();
+                        //c.dgreeLife();
 
                         break;
                     case shield:
