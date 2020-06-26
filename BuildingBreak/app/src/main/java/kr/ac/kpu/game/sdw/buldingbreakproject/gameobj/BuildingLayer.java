@@ -108,7 +108,7 @@ public class BuildingLayer implements GameObject {
         }
         y = gw.getTop();
         index = 0;
-        speed = 0;
+        speed = 100*level;
         force = 0;
         spawn = false;
         spawnTime = 0;

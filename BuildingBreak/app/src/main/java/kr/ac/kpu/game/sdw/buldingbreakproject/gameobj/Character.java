@@ -306,14 +306,14 @@ public class Character implements GameObject,BoxCollidable{
     }
     public void power() {
         int score = so.getScore();
-        if(powering == false && specialKey ==false && shileding == false && score>= 200) {
+        if(powering == false && specialKey ==false && shileding == false && score>= 600) {
             SoundEffects.get().play(R.raw.waza);
             stateTime = 0;
             powering = true;
             specialKey = true;
             fabPower_Jump.reset();
             speed = -2000;
-            so.minusScore(200);
+            so.minusScore(600);
         }
     }
 
